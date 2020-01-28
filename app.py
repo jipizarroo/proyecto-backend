@@ -46,7 +46,7 @@ def home():
 app.register_blueprint(route_productos, url_prefix='/api')
 app.register_blueprint(route_users, url_prefix='/api')
 app.register_blueprint(route_categories, url_prefix='/api')
-app.register_blueprint(route_users, url_prefix='/api')
-app.register_blueprint(route_categories, url_prefix='/api')
+
+
 if __name__ == "__main__":
     manager.run()
