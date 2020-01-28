@@ -1,0 +1,52 @@
+import os
+from flask import Flask, render_template, jsonify, request, Blueprint
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
+from flask_cors import CORS
+from flask_mail import Mail, Message
+from flask_jwt_extended import (
+    JWTManager
+)
+from models import db, User
+from routes.user import route_users
+from routes.category import route_categories
+from routes.data_productos import route_productos
+
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+# BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+# UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static/img')
+# ALLOWED_EXTENSION = {'jpg', 'png', 'jpeg'}
+app = Flask(__name__)
+app.config['DEBUG'] = True  #SE PONE FALSO CUANDO SE SUBE A PRODUCCION
+app.config['ENV'] = 'development'    
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(BASE_DIR, 'dev.db') 
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_DEBUG'] = True
+app.config['MAIL_USERNAME'] = 'jipizarroo@gmail.com'
+app.config['MAIL_PASSWORD'] = 'uwewxatunjnbhrpc'
+# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['JWT_SECRET_KEY'] = 'super-secret' #Change this when on production
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = True
+#app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=3)
+#aaaaa
+jwt = JWTManager(app)
+db.init_app(app)
+mail = Mail(app)
+migrate = Migrate(app, db)
+manager = Manager(app)
+manager.add_command('db', MigrateCommand)
+CORS(app)
+@app.route('/')
+def home(): 
+    return render_template('index.html', name="home")
+
+app.register_blueprint(route_productos, url_prefix='/api')
+app.register_blueprint(route_users, url_prefix='/api')
+app.register_blueprint(route_categories, url_prefix='/api')
+app.register_blueprint(route_users, url_prefix='/api')
+app.register_blueprint(route_categories, url_prefix='/api')
+if __name__ == "__main__":
+    manager.run()
