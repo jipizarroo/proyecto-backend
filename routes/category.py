@@ -5,7 +5,6 @@ route_categories = Blueprint('route_categories', __name__)
 
 @route_categories.route('/categories', methods = ['GET', 'POST'])
 @route_categories.route('/categories/<int:id>', methods = ['GET', 'PUT', 'DELETE'])
-
 def categories(id = None):
     if request.method == 'GET':
         if id is not None:

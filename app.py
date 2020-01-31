@@ -17,6 +17,7 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 # UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static/img')
 # ALLOWED_EXTENSION = {'jpg', 'png', 'jpeg'}
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 app.config['DEBUG'] = True  #SE PONE FALSO CUANDO SE SUBE A PRODUCCION
 app.config['ENV'] = 'development'    
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(BASE_DIR, 'dev.db') 

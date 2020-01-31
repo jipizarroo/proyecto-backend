@@ -37,12 +37,14 @@ class Category(db.Model):
         }
 
 class Item(db.Model):
-
      __tablename__ = 'items'
      id = db.Column(db.Integer, primary_key = True)
      nombre = db.Column(db.String(150), nullable = False)
      precio = db.Column(db.String(10), nullable = False)
      descripcion = db.Column(db.String(250), nullable = False)
+
+     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable = False)
+     category = db.relationship(Category)
 
      def _repr_(self):
          return '<Item %r>' % self.id
@@ -53,4 +55,6 @@ class Item(db.Model):
              'nombre': self.nombre,
              'precio': self.precio,
              'descripcion': self.descripcion,
+             'category_id': self.category_id,
+             'category': self.category.serialize()
          }
