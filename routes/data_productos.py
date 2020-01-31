@@ -6,7 +6,7 @@ route_productos = Blueprint('route_productos', __name__)
 
 
 @route_productos.route('/data_productos', methods=['GET','POST'])
-@route_productos.route('/data_productos/<int:id>', methodos=['GET', 'PUT', 'DELETE'])
+@route_productos.route('/data_productos/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 #@jwt_required
 def tipo_producto(id=None):
     if request.method == 'GET':
