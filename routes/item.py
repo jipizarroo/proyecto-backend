@@ -20,13 +20,20 @@ def items(id = None):
             return jsonify(items), 200
     
     if request.method == 'POST':
-    
-        # validar el request
+        if not  request.json.get('nombre'):
+            return jsonify({"nombre": "is required"}), 422
+        if not  request.json.get('precio'):
+            return jsonify({"precio": "is required"}), 422
+        if not  request.json.get('descripcion'):
+            return jsonify({"descripcion": "is required"}), 422
+        if not  request.json.get('category_id'):
+            return jsonify({"category_id": "is required"}), 422
 
         item = Item()
         item.nombre = request.json.get('nombre')
         item.precio = request.json.get('precio')
         item.descripcion = request.json.get('descripcion')
+        item.category_id = request.json.get('category_id')
 
         db.session.add(item)
         db.session.commit()
@@ -34,8 +41,14 @@ def items(id = None):
         return jsonify(item.serialize()), 201 
 
     if request.method == 'PUT':
-        
-        # validar el request
+        if not  request.json.get('nombre'):
+            return jsonify({"nombre": "is required"}), 422
+        if not  request.json.get('precio'):
+            return jsonify({"precio": "is required"}), 422
+        if not  request.json.get('descripcion'):
+            return jsonify({"descripcion": "is required"}), 422
+        if not  request.json.get('category'):
+            return jsonify({"category": "is required"}), 422
 
         item = Item.query.get(id)
         item.nombre = request.json.get('nombre')
