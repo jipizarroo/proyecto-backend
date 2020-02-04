@@ -35,6 +35,7 @@ def mesas(id = None):
         if int(numero_mesa) > 1:
             for i in range(numero_mesa):
                 mesa = Mesa()
+                mesa.plaza_id = request.json.get('plaza_id')
                 mesa.numero_mesa = i + 1
 
                 db.session.add(mesa)

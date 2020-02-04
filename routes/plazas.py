@@ -21,7 +21,7 @@ def plazas (id=None):
         else:
             plazas = Plaza.query.all()
             plazas = list(map(lambda plaza: plaza.serialize(), plazas))
-            return = jsonify(plazas), 200
+            return jsonify(plazas), 200
     
     if request.method == 'POST':
 
@@ -42,7 +42,7 @@ def plazas (id=None):
         plaza = Plaza.query.get(id)
         plaza.nombre_plaza = request.json.get('nombre_plaza')
 
-        if not plaza.nombre_plaza
+        if not plaza.nombre_plaza:
             return jsonify({"nombre plaza": "is required"}), 422            
         
         db.session.commit()
@@ -51,7 +51,7 @@ def plazas (id=None):
 
     if request.method == 'DELETE':
         plaza = Plaza.query.get(id)
-        db.session.add(plaza)
+        db.session.delete(plaza)
         db.session.commit()
 
         return jsonify({'plaza': 'deleted'}), 200

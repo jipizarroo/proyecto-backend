@@ -11,6 +11,7 @@ from models import db, User, Item, Category, Plaza, Mesa
 from routes.user import route_users
 from routes.category import route_categories
 from routes.item import route_items
+from routes.plazas import route_plazas
 from routes.mesas import route_mesas
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -48,8 +49,8 @@ def home():
 app.register_blueprint(route_users, url_prefix='/api')
 app.register_blueprint(route_categories, url_prefix='/api')
 app.register_blueprint(route_items, url_prefix='/api')
+app.register_blueprint(route_plazas, url_prefix='/api')
 app.register_blueprint(route_mesas, url_prefix='/api')
-
 
 if __name__ == "__main__":
     manager.run()
