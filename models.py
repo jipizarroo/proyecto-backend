@@ -76,11 +76,10 @@ class Plaza(db.Model):
 class Mesa(db.Model):
     __tablename__ = 'mesas'
     id = db.Column(db.Integer, primary_key = True)
-    cantidad_mesa = db.Column(db.Integer, nullable = False)
     nombre_mesa = db.Column(db.String(50), nullable = False)
 
 
-    plaza_id = db.Column(db.Integer, db.ForeignKey('plazas.id'), nullable = False)
+    plaza_id= db.Column(db.Integer, db.ForeignKey('plazas.id'), nullable = False)
     plaza = db.relationship(Plaza)
 
     def __repr__(self):
@@ -89,9 +88,6 @@ class Mesa(db.Model):
     def serialize(self):
          return{
              'id': self.id,
-             'cantidad_mesa': self.numero_mesa,
              'nombre_mesa': self.nombre_mesa,
-             
-             'plaza_id': self.plaza_id,
              'plaza': self.plaza.serialize()
          }
