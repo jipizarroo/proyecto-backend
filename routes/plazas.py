@@ -29,7 +29,7 @@ def plazas (id=None):
         plaza.nombre_plaza = request.json.get('nombre_plaza')
 
         if not plaza.nombre_plaza:
-            return jsonify({"nombre plaza": "is required"}), 422
+            return jsonify({"msg": "Nombre plaza is required"}), 422
         
         
         db.session.add(plaza)
