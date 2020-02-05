@@ -22,19 +22,24 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 app.config['DEBUG'] = True  #SE PONE FALSO CUANDO SE SUBE A PRODUCCION
 app.config['ENV'] = 'development'    
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(BASE_DIR, 'dev.db') 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_DEBUG'] = True
 app.config['MAIL_USERNAME'] = 'jipizarroo@gmail.com'
 app.config['MAIL_PASSWORD'] = 'uwewxatunjnbhrpc'
+
 # app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
 app.config['JWT_SECRET_KEY'] = 'super-secret' #Change this when on production
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = True
 #app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=3)
-#aaaaa
+
 jwt = JWTManager(app)
 db.init_app(app)
 mail = Mail(app)
@@ -42,6 +47,7 @@ migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 CORS(app)
+
 @app.route('/')
 def home(): 
     return render_template('index.html', name="home")
