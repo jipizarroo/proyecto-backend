@@ -56,7 +56,7 @@ class Item(db.Model):
              'precio': self.precio,
              'descripcion': self.descripcion,
              'category_id': self.category_id,
-             #'category': self.category.serialize()
+             'category': self.category.serialize()
          }
 
 class Plaza(db.Model):
