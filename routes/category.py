@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from models import db, Category
+from models import db, Category, Item
 
 route_categories = Blueprint('route_categories', __name__)
 
@@ -25,11 +25,10 @@ def categories_post():
 
 @route_categories.route('/categories/<int:id>', methods = ['GET'])
 def categories_id_get(id = None):
-    category = Category.query.get(id)
-    if category:
-        return jsonify(category.serialize()), 200
-    else:
-        return jsonify({'category': 'not found'}), 404
+    items = Item.query.filter_by(category_id = id).all()
+    result = [x.serialize() for x in items]
+    return jsonify(result), 200
+
 
 
 @route_categories.route('/categories/<int:id>', methods = ['PUT'])
