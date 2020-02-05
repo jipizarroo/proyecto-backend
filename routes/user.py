@@ -19,7 +19,7 @@ def users(id=None):
             if user:
                 return jsonify(user.serialize()), 200
             else:
-                return jsonify({'user': 'not founf'}), 400
+                return jsonify({'user': 'not found'}), 400
         else:
             users = User.query.all()
             users = list(map(lambda user: user.serialize(), users))
@@ -36,13 +36,13 @@ def users(id=None):
         user.password = bcrypt.generate_password_hash(password)
 
         if not password:
-            return jsonify({"password": "password is required"}), 422
+            return jsonify({"msg": "password is required"}), 422
         if not user.name:
-            return jsonify({"name": "name is required"}), 422
+            return jsonify({"msg": "name is required"}), 422
         if not user.last_name:
-            return jsonify({"last_name": "last_name is required"}), 422
+            return jsonify({"msg": "last_name is required"}), 422
         if not user.email:
-            return jsonify({"email": "email is required"}), 422
+            return jsonify({"msg": "email is required"}), 422
 
         db.session.add(user)
         db.session.commit()
@@ -60,13 +60,13 @@ def users(id=None):
         user.password = bcrypt.generate_password_hash(password)
 
         if not password:
-            return jsonify({"password": "password is required"}), 422
+            return jsonify({"msg": "password is required"}), 422
         if not user.name:
-            return jsonify({"name": "name is required"}), 422
+            return jsonify({"msg": "name is required"}), 422
         if not user.last_name:
-            return jsonify({"last_name": "last_name is required"}), 422
+            return jsonify({"msg": "last_name is required"}), 422
         if not user.email:
-            return jsonify({"email": "email is required"}), 422
+            return jsonify({"msg": "email is required"}), 422
 
         db.session.commit()
 

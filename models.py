@@ -27,8 +27,8 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     description = db.Column(db.String(150), nullable = False)
 
-    def _repr_(self):
-        return '<Category %r>' % self.id
+    def __repr__(self):
+        return '<Category %r>' % self.name
 
     def serialize(self):
         return{
@@ -46,8 +46,8 @@ class Item(db.Model):
      category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable = False)
      category = db.relationship(Category)
 
-     def _repr_(self):
-         return '<Item %r>' % self.id
+     def __repr__(self):
+         return '<Item %r>' % self.name
 
      def serialize(self):
          return{
@@ -58,3 +58,36 @@ class Item(db.Model):
              'category_id': self.category_id,
              #'category': self.category.serialize()
          }
+
+class Plaza(db.Model):
+    __tablename__ = 'plazas'
+    id = db.Column(db.Integer, primary_key = True)
+    nombre_plaza = db.Column(db.String(50), nullable = False)
+
+    def __repr__(self):
+         return '<Plaza %r>' % self.name
+
+    def serialize(self):
+         return{
+             'id': self.id,
+             'nombre_plaza': self.nombre_plaza,
+         }
+    
+class Mesa(db.Model):
+    __tablename__ = 'mesas'
+    id = db.Column(db.Integer, primary_key = True)
+    nombre_mesa = db.Column(db.String(50), nullable = False)
+
+
+    plaza_id= db.Column(db.Integer, db.ForeignKey('plazas.id'), nullable = False)
+    plaza = db.relationship(Plaza)
+
+    def __repr__(self):
+         return '<Mesa %r>' % self.name
+
+    def serialize(self):
+         return{
+             'id': self.id,
+             'nombre_mesa': self.nombre_mesa,
+             'plaza': self.plaza.serialize()
+             }
