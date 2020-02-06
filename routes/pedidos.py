@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from models import db, Item, User, Mesa, Pedido
+from models import db, Pedido, Info_Pedidos
 
 route_pedidos = Blueprint('route_pedidos', __name__)
 
@@ -13,11 +13,24 @@ def pedidos_get():
 @route_pedidos.route('/pedidos', methods = ['POST'])
 def pedidos_post():
 
-    id_mesa = request.json.get('id_mesa')
+    info_pedidos = Info_Pedidos()
+    info_pedidos.id_mesa = request.json.get('id_mesa')
+    info_pedidos.id_user = 2
+
+    db.session.add(info_pedidos)
+    db.session.commit()
+
     pedidos = request.json.get('productos')
-    print(id_mesa)
-    print(pedidos[0])
-    return jsonify(""), 201
+    for p in pedidos:
+        pedido = Pedido()
+        pedido.id_info_pedidos = info_pedidos.id
+        pedido.id_item = 1
+        pedido.id_item = p['id_producto']
+        pedido.cantidad = p['cantidad']
+        db.session.add(pedido)
+        db.session.commit()
+
+    return jsonify(info_pedidos.id), 201
 
     # item_id = request.json.get('item_id')
     # mesa_id = request.json.get('mesa_id')
