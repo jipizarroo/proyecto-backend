@@ -59,6 +59,7 @@ class Item(db.Model):
              #'category': self.category.serialize()
          }
 
+
 class Plaza(db.Model):
     __tablename__ = 'plazas'
     id = db.Column(db.Integer, primary_key = True)
@@ -73,11 +74,11 @@ class Plaza(db.Model):
              'nombre_plaza': self.nombre_plaza,
          }
     
+
 class Mesa(db.Model):
     __tablename__ = 'mesas'
     id = db.Column(db.Integer, primary_key = True)
     nombre_mesa = db.Column(db.String(50), nullable = False)
-
 
     plaza_id= db.Column(db.Integer, db.ForeignKey('plazas.id'), nullable = False)
     plaza = db.relationship(Plaza)
@@ -91,3 +92,28 @@ class Mesa(db.Model):
              'nombre_mesa': self.nombre_mesa,
              'plaza': self.plaza.serialize()
              }
+
+class Pedido(db.Model):
+    __tablename__ = 'pedidos'
+    id = db.Column(db.Integer, primary_key = True)
+
+
+    mesa_id= db.Column(db.Integer, db.ForeignKey('mesas.id'), nullable = False)
+    mesa = db.relationship(Mesa)
+
+    item_id= db.Column(db.Integer, db.ForeignKey('items.id'), nullable = False)
+    item = db.relationship(Item)
+
+    user_id= db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
+    user = db.relationship(User)
+
+    def __repr__(self):
+         return '<Pedidos %r>' % self.name
+
+    def serialize(self):
+         return{
+             'id': self.id,
+             'mesa': self.mesa.serialize(),
+             'item': self.item.serialize(),
+             'user': self.user.serialize()
+         }
