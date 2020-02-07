@@ -27,7 +27,6 @@ def users(id=None):
     
     if request.method == 'POST':
 
-
         password = request.json.get('password')
         user = User()
         user.name = request.json.get('name')

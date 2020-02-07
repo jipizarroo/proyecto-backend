@@ -12,7 +12,6 @@ def categories_get():
 
 @route_categories.route('/categories', methods = ['POST'])
 def categories_post():
-    # validar el request
 
     category = Category()
     category.description = request.json.get('description')
@@ -30,10 +29,8 @@ def categories_id_get(id = None):
     return jsonify(result), 200
 
 
-
 @route_categories.route('/categories/<int:id>', methods = ['PUT'])
 def categories_id_put(id = None):
-    # validar el request
 
     category = Category.query.get(id)
     category.description = request.json.get('description')
