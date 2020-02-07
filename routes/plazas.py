@@ -17,7 +17,7 @@ def plazas (id=None):
             if user:
                 return jsonify(plaza.serialize()),200
             else:
-                return jsonify({'plaza': 'not found'}), 400
+                return jsonify({'msg': 'Plaza is not found'}), 400
         else:
             plazas = Plaza.query.all()
             plazas = list(map(lambda plaza: plaza.serialize(), plazas))
@@ -29,7 +29,7 @@ def plazas (id=None):
         plaza.nombre_plaza = request.json.get('nombre_plaza')
 
         if not plaza.nombre_plaza:
-            return jsonify({"nombre plaza": "is required"}), 422
+            return jsonify({"msg": "Nombre plaza is required"}), 422
         
         
         db.session.add(plaza)
@@ -43,7 +43,7 @@ def plazas (id=None):
         plaza.nombre_plaza = request.json.get('nombre_plaza')
 
         if not plaza.nombre_plaza:
-            return jsonify({"nombre plaza": "is required"}), 422            
+            return jsonify({"msg": "plaza id is required"}), 422            
         
         db.session.commit()
 
@@ -54,7 +54,7 @@ def plazas (id=None):
         db.session.delete(plaza)
         db.session.commit()
 
-        return jsonify({'plaza': 'deleted'}), 200
+        return jsonify({'msg': 'Plaza deleted'}), 200
 
 
 
