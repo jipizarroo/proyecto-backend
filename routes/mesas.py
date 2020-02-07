@@ -14,10 +14,10 @@ def mesas(id = None):
     if request.method == 'GET':
         if id is not None:
             mesa = Mesa.query.get(id)
-            if item:
+            if mesa:
                 return jsonify(mesa.serialize()), 200
             else:
-                return jsonify({'item': 'not found'}), 404
+                return jsonify({'msg': 'Mesa not found'}), 404
         else:
              mesas = Mesa.query.all()
              mesas = list(map(lambda mesa: mesa.serialize(), mesas))
@@ -63,12 +63,10 @@ def mesas(id = None):
 
         mesa = Mesa.query.get(id)
         mesa.nombre_mesa = request.json.get('nombre_mesa')
-        mesa.plaza_id = request.json.get('plaza_id')
 
         if not mesa.nombre_mesa:
             return jsonify({"msg": "ID Mesa is required"}), 422
-        if not mesa.plaza_id:
-            return jsonify({"msg": "Plaza is required"}), 422
+
 
         db.session.commit()
 
