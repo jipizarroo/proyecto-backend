@@ -112,7 +112,6 @@ class Info_Pedidos(db.Model):
              'user': self.user.serialize(),
              'id_mesa': self.id_mesa,
              'mesa': self.mesa.serialize(),
-
          }
 
 class Pedido(db.Model):
