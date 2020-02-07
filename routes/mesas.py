@@ -51,10 +51,10 @@ def mesas(id = None):
         else:
             mesa = Mesa()
             mesa.plaza_id = request.json.get('plaza_id')
-            mesa.nombre_mesa = plaza.nombre_plaza + str(i+1)
+            mesa.nombre_mesa = plaza.nombre_plaza + str(1)
             
 
-            db.sessions.add(mesa)
+            db.session.add(mesa)
             db.session.commit()
 
             return jsonify(mesa.serialize()), 201
