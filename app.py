@@ -15,6 +15,7 @@ from routes.plazas import route_plazas
 from routes.mesas import route_mesas
 from routes.pedidos import route_pedidos
 from routes.filtrar import route_filtros
+from routes.auth import auth
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 # BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -54,6 +55,7 @@ CORS(app)
 def home(): 
     return render_template('index.html', name="home")
 
+app.register_blueprint(auth)
 app.register_blueprint(route_users, url_prefix='/api')
 app.register_blueprint(route_categories, url_prefix='/api')
 app.register_blueprint(route_items, url_prefix='/api')
@@ -61,6 +63,7 @@ app.register_blueprint(route_plazas, url_prefix='/api')
 app.register_blueprint(route_mesas, url_prefix='/api')
 app.register_blueprint(route_pedidos, url_prefix='/api')
 app.register_blueprint(route_filtros, url_prefix='/api')
+
 
 if __name__ == "__main__":
     manager.run()

@@ -46,6 +46,14 @@ def users(id=None):
         db.session.add(user)
         db.session.commit()
 
+        if bcrypt.check_password_hash(user.password, password):
+            access_token = create_access_token(identity=user.email)
+            data = {
+                "access_token": access_token,
+                "user": user.serialize()
+            }
+            return jsonify(data), 200
+
         #FALTA ENVIAR EMAIL DE CONFORMACIon#
         return jsonify(user.serialize()), 201
 
