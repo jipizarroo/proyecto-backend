@@ -8,7 +8,7 @@ route_mesas = Blueprint('route_mesas', __name__)
 
 @route_mesas.route('/mesas', methods=['GET', 'POST'])
 @route_mesas.route('/mesas/<int:id>', methods=['GET', 'PUT', 'DELETE'])
-#@jwt_required
+@jwt_required
 
 def mesas(id = None):
     if request.method == 'GET':

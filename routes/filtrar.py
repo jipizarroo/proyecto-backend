@@ -8,6 +8,8 @@ route_filtros = Blueprint('route_filtros', __name__)
 
 @route_filtros.route('/filtros/', methods=['GET'])
 @route_filtros.route('/filtros/<int:plaza_id>', methods=['GET'])
+@jwt_required
+
 
 def filtros(plaza_id = None):
     if request.method == 'GET':

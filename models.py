@@ -9,6 +9,8 @@ class User(db.Model):
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(50), nullable=False)
+    isAdmin = db.Column(db.Boolean, default = False)
+    isActive = db.Column(db.Boolean, default = True)
 
 
     def __repr__(self):
@@ -20,6 +22,8 @@ class User(db.Model):
             'email': self.email,
             'name': self.name,
             'last_name': self.last_name,
+            'isAdmin': self.isAdmin,
+            'isActive': self.isActive
         }
 
 class Category(db.Model):

@@ -1,10 +1,14 @@
 from flask import Blueprint, request, jsonify
 from models import db, Item
+from flask_jwt_extended import (
+    jwt_required
+)
 
 route_items = Blueprint('route_items', __name__)
 
 @route_items.route('/items', methods = ['GET', 'POST'])
 @route_items.route('/items/<int:id>', methods = ['GET', 'PUT', 'DELETE'])
+@jwt_required
 
 def items(id = None):
     if request.method == 'GET':

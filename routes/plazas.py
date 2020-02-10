@@ -8,7 +8,7 @@ route_plazas = Blueprint('route_plazas', __name__)
 
 @route_plazas.route('/plazas', methods=['GET', 'POST'])
 @route_plazas.route('/plazas/<int:id>', methods=['GET', 'PUT', 'DELETE'])
-#@jwt_required
+@jwt_required
 
 def plazas (id=None):
     if request.method == 'GET':

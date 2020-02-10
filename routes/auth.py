@@ -4,6 +4,7 @@ from flask_jwt_extended import (
 )
 from flask_bcrypt import Bcrypt
 from models import db, User
+import datetime
 
 bcrypt = Bcrypt()
 auth = Blueprint('auth', __name__)
@@ -23,7 +24,7 @@ def login():
         return jsonify ({"msg": "email not found"}), 404
     pw_hash = bcrypt.generate_password_hash(password)
     if bcrypt.check_password_hash(user.password, password):
-        access_token = create_access_token(identity=user.email)
+        access_token = create_access_token(identity=user.email, expires_delta=False)
         data = {
             "access_token": access_token,
             "user": user.serialize()

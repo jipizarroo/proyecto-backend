@@ -1,9 +1,13 @@
 from flask import Blueprint, request, jsonify
 from models import db, Pedido, Info_Pedidos
+from flask_jwt_extended import (
+    jwt_required
+)
 
 route_pedidos = Blueprint('route_pedidos', __name__)
 
 @route_pedidos.route('/pedidos', methods = ['GET'])
+@jwt_required
 def pedidos_get():
     pedidos = Pedido.query.all()
     pedidos = list(map(lambda pedidos: pedidos.serialize(), pedidos))
@@ -11,6 +15,7 @@ def pedidos_get():
 
 
 @route_pedidos.route('/pedidos', methods = ['POST'])
+@jwt_required
 def pedidos_post():
 
     info_pedidos = Info_Pedidos()
