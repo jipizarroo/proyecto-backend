@@ -42,8 +42,8 @@ class Item(db.Model):
      nombre = db.Column(db.String(150), nullable = False)
      precio = db.Column(db.String(10), nullable = False)
      descripcion = db.Column(db.String(250), nullable = False)
-
      category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable = False)
+
      category = db.relationship(Category)
 
      def __repr__(self):
@@ -56,10 +56,8 @@ class Item(db.Model):
              'precio': self.precio,
              'descripcion': self.descripcion,
              'category_id': self.category_id,
-             'category': self.category.serialize(),
              'category_descripcion': self.category.description
          }
-
 
 class Plaza(db.Model):
     __tablename__ = 'plazas'
@@ -98,12 +96,10 @@ class Info_Pedidos(db.Model):
     __tablename__ = 'info_pedidos'
     id = db.Column(db.Integer, primary_key = True)
     id_user = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
-    user = db.relationship(User)
     id_mesa = db.Column(db.Integer, db.ForeignKey('mesas.id'), nullable = False)
-    mesa = db.relationship(Mesa)
-
-    def __repr__(self):
-         return '<Info_Pedidos %r>' % self.name
+    abierto = db.Column(db.Boolean, nullable = False, default=True)
+    
+    user = db.relationship(User, uselist = False)
 
     def serialize(self):
          return{
@@ -111,17 +107,18 @@ class Info_Pedidos(db.Model):
              'id_user': self.id_user,
              'user': self.user.serialize(),
              'id_mesa': self.id_mesa,
-             'mesa': self.mesa.serialize(),
          }
 
 class Pedido(db.Model):
     __tablename__ = 'pedidos'
     id = db.Column(db.Integer, primary_key = True)
     id_item = db.Column(db.Integer, db.ForeignKey('items.id'), nullable = False)
-    item = db.relationship(Item)
     id_info_pedidos = db.Column(db.Integer, db.ForeignKey('info_pedidos.id'), nullable = False)
-    info_pedidos = db.relationship(Info_Pedidos)
     cantidad = db.Column(db.Integer, nullable = False)
+    #fecha_pedido = db.Column(db.Date, nullable = False, default= Date.now())
+
+    item = db.relationship(Item)
+    info_pedidos = db.relationship(Info_Pedidos)
 
     def __repr__(self):
          return '<Pedidos %r>' % self.name
@@ -129,8 +126,9 @@ class Pedido(db.Model):
     def serialize(self):
          return{
              'id': self.id,
+             'id_info_pedidos': self.id_info_pedidos,
              'id_item': self.id_item,
              'item': self.item.serialize(),
-             'id_info_pedidos': self.id_info_pedidos,
-             'info_pedidos': self.info_pedidos.serialize()
+             'cantidad': self.cantidad,
+             #'fecha_pedido': self.fecha_pedido
          }
