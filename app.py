@@ -16,6 +16,7 @@ from routes.mesas import route_mesas
 from routes.pedidos import route_pedidos
 from routes.filtrar import route_filtros
 from routes.auth import auth
+from routes.first_user import route_first_user
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 # BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -63,6 +64,7 @@ app.register_blueprint(route_plazas, url_prefix='/api')
 app.register_blueprint(route_mesas, url_prefix='/api')
 app.register_blueprint(route_pedidos, url_prefix='/api')
 app.register_blueprint(route_filtros, url_prefix='/api')
+app.register_blueprint(route_first_user, url_prefix='/api')
 
 
 if __name__ == "__main__":
