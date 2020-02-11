@@ -9,7 +9,7 @@ class User(db.Model):
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(50), nullable=False)
-    isAdmin = db.Column(db.Boolean, default = False)
+    isAdmin = db.Column(db.Boolean, default = False, nullable = False)
     isActive = db.Column(db.Boolean, default = True, nullable=False)
 
 

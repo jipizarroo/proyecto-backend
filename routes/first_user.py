@@ -31,14 +31,14 @@ def first_user():
         if not email:
             return jsonify({"msg": "email is required"}), 422
 
-        username = User.query.filter_by(email=email).first()
-
-        if not username: 
+        users = User.query.all()
+        if not users: 
             user = User()
             user.name = name
             user.last_name = last_name
             user.email = email
             user.password = bcrypt.generate_password_hash(password)
+            user.isAdmin = True
 
             db.session.add(user)
             db.session.commit()
