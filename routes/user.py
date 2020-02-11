@@ -6,6 +6,8 @@ from flask_jwt_extended import (
 from models import db, User
 import datetime
 
+from libs.functions import sendMail
+
 bcrypt = Bcrypt()
 route_users = Blueprint('route_users', __name__)
 
@@ -58,6 +60,8 @@ def users(id=None):
         db.session.add(user)
         db.session.commit()
 
+        sendMail("Usuario Creado", user.email, "jipizarroo@gmail.com", user.email, "Bienvenido "+user.name+user.last_name+ " recuerda tu usuario es tu mismo email!")
+
         if bcrypt.check_password_hash(user.password, password):
             #expires = datetime.timedelta(days=3)
             access_token = create_access_token(identity=user.email, expires_delta=False)
@@ -83,8 +87,6 @@ def users(id=None):
 
         #if not password:
             #return jsonify({"msg": "password is required"}), 422
-        if not user.isAdmin or not user.isActive:
-            return jsonify({"msg": "Please select a box"}), 422
         if not user.name:
             return jsonify({"msg": "name is required"}), 422
         if not user.last_name:

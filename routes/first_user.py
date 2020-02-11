@@ -5,6 +5,7 @@ from flask_jwt_extended import (
 )
 from models import db, User
 import datetime
+from libs.functions import sendMail
 
 bcrypt = Bcrypt()
 route_first_user = Blueprint('route_first_user', __name__)
@@ -43,6 +44,7 @@ def first_user():
             db.session.add(user)
             db.session.commit()
 
+sendMail("Usuario Creado", user.email, "jipizarroo@gmail.com", user.email, "Bienvenido "+user.name+user.last_name+ " recuerda siempre dejar un admin, de borrar todo los admin debes contactarnos :)!")
 
             if bcrypt.check_password_hash(user.password, password):
                 #expires = datetime.timedelta(days=3)
