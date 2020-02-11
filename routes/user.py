@@ -96,6 +96,8 @@ def users(id=None):
 
         db.session.commit()
 
+        sendMail("Usuario Creado", user.email, "jipizarroo@gmail.com", user.email, "Modificaciones aplicadas "+user.name+user.last_name)
+
         return jsonify(user.serialize()), 201        
 
     if request.method == 'DELETE':
