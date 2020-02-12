@@ -18,12 +18,12 @@ class User(db.Model):
     
     def serialize(self):
         return {
-            'id': self.id,
-            'email': self.email,
+            #'id': self.id,
+            #'email': self.email,
             'name': self.name,
             'last_name': self.last_name,
-            'isAdmin': self.isAdmin,
-            'isActive': self.isActive
+            #'isAdmin': self.isAdmin,
+            #'isActive': self.isActive
         }
 
 class Category(db.Model):
@@ -44,7 +44,7 @@ class Item(db.Model):
      __tablename__ = 'items'
      id = db.Column(db.Integer, primary_key = True)
      nombre = db.Column(db.String(150), nullable = False)
-     precio = db.Column(db.String(10), nullable = False)
+     precio = db.Column(db.Float, nullable = False)
      descripcion = db.Column(db.String(250), nullable = False)
      category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable = False)
 
@@ -96,6 +96,7 @@ class Mesa(db.Model):
              'plaza': self.plaza.serialize()
              }
 
+# Tabla Pedido
 class Info_Pedidos(db.Model):
     __tablename__ = 'info_pedidos'
     id = db.Column(db.Integer, primary_key = True)
@@ -108,11 +109,19 @@ class Info_Pedidos(db.Model):
     def serialize(self):
          return{
              'id': self.id,
-             'id_user': self.id_user,
+             #'id_user': self.id_user,
              'user': self.user.serialize(),
              'id_mesa': self.id_mesa,
          }
+    
+    def serialize_sin_user(self):
+         return{
+             'id': self.id,
+             'id_user': self.id_user,
+             'id_mesa': self.id_mesa,
+         }
 
+# Tabla Items de Pedidos
 class Pedido(db.Model):
     __tablename__ = 'pedidos'
     id = db.Column(db.Integer, primary_key = True)
@@ -129,12 +138,6 @@ class Pedido(db.Model):
 
     def serialize(self):
          return{
-             'id': self.id,
-             'id_info_pedidos': self.id_info_pedidos,
-             'id_item': self.id_item,
              'item': self.item.serialize(),
-             'id_info_pedidos': self.id_info_pedidos,
-             'info_pedidos': self.info_pedidos.serialize(),
              'cantidad': self.cantidad,
-             #'fecha_pedido': self.fecha_pedido
          }

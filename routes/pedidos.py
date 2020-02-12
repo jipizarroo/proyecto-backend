@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
-from models import db, Pedido, Info_Pedidos
+from models import db, Pedido, Info_Pedidos, User
 from flask_jwt_extended import (
-    jwt_required
+    jwt_required, get_jwt_identity
 )
 
 route_pedidos = Blueprint('route_pedidos', __name__)
@@ -18,56 +18,33 @@ def pedidos_get():
 @jwt_required
 def pedidos_post():
 
-    info_pedidos = Info_Pedidos()
-    info_pedidos.id_mesa = request.json.get('id_mesa')
-    info_pedidos.id_user = 2
+    #Obtencion de id dede el token!!!!!
+    user_email =  get_jwt_identity()
+    user = User.query.filter_by(email = user_email).first()
 
-    db.session.add(info_pedidos)
-    db.session.commit()
+    if user:
+        info_pedidos = Info_Pedidos()
+        info_pedidos.id_mesa = request.json.get('id_mesa')
+        info_pedidos.id_user = user.id
 
-    pedidos = request.json.get('productos')
-    for p in pedidos:
-        pedido = Pedido()
-        pedido.id_info_pedidos = info_pedidos.id
-        pedido.id_item = 1
-        pedido.id_item = p['id_producto']
-        pedido.cantidad = p['cantidad']
-        db.session.add(pedido)
+        db.session.add(info_pedidos)
         db.session.commit()
 
-    return jsonify(info_pedidos.id), 201
+        pedidos = request.json.get('productos')
+        for p in pedidos:
+            pedido = Pedido()
+            pedido.id_info_pedidos = info_pedidos.id
+            pedido.id_item = p['id_producto']
+            pedido.cantidad = p['cantidad']
+            db.session.add(pedido)
+            db.session.commit()
 
-    # item_id = request.json.get('item_id')
-    # mesa_id = request.json.get('mesa_id')
-    # user_id = request.json.get('user_id')
-
-    # pedido = Pedido()
-    # pedido.item_id = request.json.get('[item_id]')
-    # pedido.mesa_id = request.json.get('mesa_id')
-    # pedido.user_id = request.json.get('user_id')
-
-    # db.session.add(pedido)
-    # db.session.commit()
-
-    # return jsonify(pedido.serialize()), 201
-
-
-# @route_categories.route('/categories/<int:id>', methods = ['PUT'])
-# def categories_id_put(id = None):
-#     # validar el request
-
-#     category = Category.query.get(id)
-#     category.description = request.json.get('description')
-
-#     db.session.commit()
-
-#     return jsonify(category.serialize()), 200
-
-
-# @route_categories.route('/categories/<int:id>', methods = ['DELETE'])
-# def categories_id_delete(id = None):
-#     category = Category.query.get(id)
-#     db.session.delete(category)
-#     db.session.commit()
-
-#     return jsonify({'category': 'deleted'}), 200
+        info_resumen = Info_Pedidos.query.get(info_pedidos.id)
+        pedidos = Pedido.query.filter_by(id_info_pedidos = info_resumen.id).all()
+        info_total = {}
+        info_total["info_pedido"] = info_resumen.serialize()
+        info_total["pedidos"] = [pedido.serialize() for pedido in pedidos]
+        info_total["total"] = 0 if len(pedidos) == 0 else sum(pedido.cantidad * pedido.item.precio  for pedido in pedidos)
+        return jsonify(info_total), 201
+    
+    return "Usuario no encontrado", 404
