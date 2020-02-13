@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import backref
 
 db = SQLAlchemy()
 
@@ -84,7 +85,7 @@ class Mesa(db.Model):
     nombre_mesa = db.Column(db.String(50), nullable = False)
 
     plaza_id= db.Column(db.Integer, db.ForeignKey('plazas.id'), nullable = False)
-    plaza = db.relationship(Plaza)
+    plaza = db.relationship(Plaza, backref=backref("children", cascade="all,delete"))
 
     def __repr__(self):
          return '<Mesa %r>' % self.name

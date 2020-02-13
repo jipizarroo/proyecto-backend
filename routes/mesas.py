@@ -38,6 +38,7 @@ def mesas(id = None):
             return jsonify({"msg": "Plaza doesn't exists"}), 404
 
         mesas = Mesa.query.all()
+        mesas = Mesa.query.filter_by(plaza_id=plaza_id).all()
         mesas = list(map(lambda mesa: mesa.serialize(), mesas))
         if (len(mesas) == 0) and (int(cantidad_mesa) > 1):
             for i in range(cantidad_mesa):
