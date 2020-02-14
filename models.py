@@ -47,7 +47,6 @@ class Item(db.Model):
      nombre = db.Column(db.String(150), nullable = False)
      precio = db.Column(db.Float, nullable = False)
      descripcion = db.Column(db.String(250), nullable = False)
-     enviado = db.Column(db.Boolean, nullable = False, default= False)
      category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable = False)
 
      category = db.relationship(Category)
@@ -63,7 +62,6 @@ class Item(db.Model):
              'descripcion': self.descripcion,
              'category_id': self.category_id,
              'category_descripcion': self.category.description,
-             'enviado': self.enviado
          }
 
 class Plaza(db.Model):
