@@ -44,7 +44,7 @@ def pedidos_post():
         info_total = {}
         info_total["info_pedido"] = info_resumen.serialize()
         info_total["pedidos"] = [pedido.serialize() for pedido in pedidos]
-        info_total["total"] = 0 if len(pedidos) == 0 else sum(pedido.cantidad * pedido.item.precio  for pedido in pedidos)
+        info_total["total"] = 0 if len(pedidos) == 0 else sum(float(pedido.cantidad) * float(pedido.item.precio)  for pedido in pedidos)
         return jsonify(info_total), 201
     
     return "Usuario no encontrado", 404
