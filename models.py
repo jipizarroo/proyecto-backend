@@ -18,12 +18,12 @@ class User(db.Model):
     
     def serialize(self):
         return {
-            #'id': self.id,
-            #'email': self.email,
+            'id': self.id,
+            'email': self.email,
             'name': self.name,
             'last_name': self.last_name,
-            #'isAdmin': self.isAdmin,
-            #'isActive': self.isActive
+            'isAdmin': self.isAdmin,
+            'isActive': self.isActive
         }
 
 class Category(db.Model):
