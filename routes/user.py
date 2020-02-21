@@ -36,18 +36,18 @@ def users(id=None):
         email = request.json.get('email')
 
         if not password:
-            return jsonify({"msg": "password is required"}), 422
+            return jsonify({"msg": "Password es requerida"}), 422
         if not name:
-            return jsonify({"msg": "name is required"}), 422
+            return jsonify({"msg": "Nombre es requerido"}), 422
         if not last_name:
-            return jsonify({"msg": "last_name is required"}), 422
+            return jsonify({"msg": "Apellido es requerido"}), 422
         if not email:
-            return jsonify({"msg": "email is required"}), 422
+            return jsonify({"msg": "Email es requerido"}), 422
 
         username = User.query.filter_by(email=email).first()
 
         if username:
-            return jsonify({"msg": "Email is taken"}), 404
+            return jsonify({"msg": "Email ya esta siendo ocupado"}), 404
 
 
         user = User()
@@ -96,7 +96,7 @@ def users(id=None):
 
         db.session.commit()
 
-        sendMail("Usuario Creado", user.email, "jipizarroo@gmail.com", user.email, "Modificaciones aplicadas "+user.name+user.last_name)
+        sendMail("Usuario Modificado", user.email, "jipizarroo@gmail.com", user.email, "Modificaciones aplicadas "+user.name+user.last_name)
 
         return jsonify(user.serialize()), 201        
 
