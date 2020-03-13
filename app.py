@@ -69,5 +69,5 @@ app.register_blueprint(route_first_user, url_prefix='/api')
 app.register_blueprint(route_info_pedidos, url_prefix='/api')
 
 
-if __name__ == "__main__":
-    manager.run()
+#if __name__ == "__main__":
+#    manager.run()
